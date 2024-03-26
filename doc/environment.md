@@ -1,5 +1,10 @@
 ## Windows
-
+- MySQL: 127.0.0.1:3306 root/root
+- Redis: 127.0.0.1:6379 cuiweiman
+- MinIO:
+- RocketMQ:
+- Tdengine:
+- Nacos: 
 
 
 ## MAC 
