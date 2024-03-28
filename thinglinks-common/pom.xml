@@ -9,13 +9,13 @@
         <version>0.1</version>
     </parent>
 
-    <groupId>com.cs.modules</groupId>
-    <artifactId>thinglinks-modules</artifactId>
+    <groupId>com.cs.common</groupId>
+    <artifactId>thinglinks-common</artifactId>
     <packaging>pom</packaging>
-    <description>业务模块</description>
 
     <modules>
-        <module>thinglinks-modules-system</module>
+        <module>thinglinks-common-core</module>
+        <module>thinglinks-common-auth</module>
     </modules>
 
 </project>

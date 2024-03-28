@@ -5,35 +5,30 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.cs</groupId>
+        <groupId>com.cs.modules</groupId>
         <artifactId>thinglinks-modules</artifactId>
-        <version>${thinglinks.version}</version>
+        <version>0.1</version>
     </parent>
 
-    <groupId>com.cs.system</groupId>
+    <groupId>com.cs.modules.system</groupId>
     <artifactId>thinglinks-modules-system</artifactId>
+    <description>系统模块</description>
 
     <build>
         <finalName>${project.artifactId}-${project.version}</finalName>
-        <!-- 加载 指定路径的 配置文件 ，常用于全局配置 -->
+        <!-- 加载 指定路径的 配置文件 的相对路径 ，常用于加载全局配置:
+         src/main/filters/config-dev.properties
+         -->
         <filters>
             <filter>../../src/main/filters/config-${spring.profile}.properties</filter>
         </filters>
-
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
-
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
                 <configuration>
-                    <mainClass>com.cs.system.SystemApplication</mainClass>
+                    <mainClass>com.cs.modules.system.SystemApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>
@@ -49,21 +44,33 @@
     </build>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.cs.common.auth</groupId>
+            <artifactId>thinglinks-common-auth</artifactId>
+        </dependency>
+
         <!--nacos 配置中心-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
-
         <!--nacos 服务注册中心-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
 
-
-
+        <!--服务健康监控-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
 
     </dependencies>
 

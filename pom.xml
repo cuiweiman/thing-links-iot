@@ -5,8 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.cs</groupId>
     <artifactId>thinglinks</artifactId>
-    <version>${thinglinks.version}</version>
-
+    <version>0.1</version>
     <packaging>pom</packaging>
 
     <name>ThingLinksIot</name>
@@ -15,35 +14,25 @@
 
     <modules>
         <module>thinglinks-modules</module>
+        <module>thinglinks-common</module>
+        <module>thinglinks-api</module>
     </modules>
 
     <properties>
         <thinglinks.version>0.1</thinglinks.version>
-        <java.version>21</java.version>
+        <java.version>17</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!--https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E-->
         <!--https://sca.aliyun.com/zh-cn/docs/2022.0.0.0/overview/version-explain-->
-        <spring-boot.version>3.0.2</spring-boot.version>
-        <spring-cloud.version>2022.0.0</spring-cloud.version>
+        <spring-boot.version>3.0.7</spring-boot.version>
+        <spring-cloud.version>2022.0.3</spring-cloud.version>
         <spring-cloud-alibaba.version>2022.0.0.0</spring-cloud-alibaba.version>
     </properties>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.13.0</version>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
+    <!--环境配置-->
     <profiles>
         <profile>
             <id>dev</id>
@@ -56,6 +45,27 @@
             </activation>
         </profile>
     </profiles>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.12.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencyManagement>
         <dependencies>
@@ -81,6 +91,37 @@
                 <scope>import</scope>
             </dependency>
 
+            <dependency>
+                <groupId>com.cs.common.core</groupId>
+                <artifactId>thinglinks-common-core</artifactId>
+                <version>0.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.cs.common.auth</groupId>
+                <artifactId>thinglinks-common-auth</artifactId>
+                <version>0.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.cs.api.system</groupId>
+                <artifactId>thinglinks-api-system</artifactId>
+                <version>0.1</version>
+            </dependency>
+
+            <!-- mysql-connector-j -->
+            <dependency>
+                <groupId>com.mysql</groupId>
+                <artifactId>mysql-connector-j</artifactId>
+                <version>8.0.33</version>
+            </dependency>
+
+
+            <!-- druid-spring-boot-3-starter -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-3-starter</artifactId>
+                <version>1.2.22</version>
+            </dependency>
+
             <!-- mybatis -->
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
@@ -100,6 +141,13 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
                 <version>4.3.0</version>
+            </dependency>
+
+            <!-- redisson-spring-boot-starter -->
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>3.25.0</version>
             </dependency>
 
             <!-- knife4j -->
@@ -143,20 +191,54 @@
                 <version>4.4</version>
             </dependency>
 
-            <!-- jackson-databind -->
+            <!-- commons-fileupload -->
             <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>2.17.0</version>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>1.5</version>
+            </dependency>
+
+            <!-- poi-ooxml -->
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>5.2.5</version>
+            </dependency>
+
+            <!--netty-all-->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>4.1.108.Final</version>
+            </dependency>
+
+            <!-- Java Servlet -->
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>4.0.1</version>
             </dependency>
 
         </dependencies>
     </dependencyManagement>
 
     <dependencies>
+
+        <!-- bootstrap 启动器 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+        </dependency>
+
+        <!--
+            lombok 若不指定 高版本，JDK21将会报错如下:
+            Class com.sun.tools.javac.tree.JCTree$JCImport does not have member field 'com.sun.tools.javac.tree.JCTree qualid'
+            因 springboot springcloud springcloudalibaba 版本匹配问题，已更换 jdk17
+            -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>1.18.30</version>
         </dependency>
     </dependencies>
 

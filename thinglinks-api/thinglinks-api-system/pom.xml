@@ -4,18 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.cs</groupId>
-        <artifactId>thinglinks</artifactId>
+        <groupId>com.cs.api</groupId>
+        <artifactId>thinglinks-api</artifactId>
         <version>0.1</version>
     </parent>
 
-    <groupId>com.cs.modules</groupId>
-    <artifactId>thinglinks-modules</artifactId>
-    <packaging>pom</packaging>
-    <description>业务模块</description>
+    <groupId>com.cs.api.system</groupId>
+    <artifactId>thinglinks-api-system</artifactId>
 
-    <modules>
-        <module>thinglinks-modules-system</module>
-    </modules>
+
 
 </project>

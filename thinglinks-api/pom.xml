@@ -9,13 +9,19 @@
         <version>0.1</version>
     </parent>
 
-    <groupId>com.cs.modules</groupId>
-    <artifactId>thinglinks-modules</artifactId>
+    <groupId>com.cs.api</groupId>
+    <artifactId>thinglinks-api</artifactId>
     <packaging>pom</packaging>
-    <description>业务模块</description>
 
     <modules>
-        <module>thinglinks-modules-system</module>
+        <module>thinglinks-api-system</module>
     </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.cs.common.core</groupId>
+            <artifactId>thinglinks-common-core</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

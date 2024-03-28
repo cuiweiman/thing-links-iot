@@ -1,0 +1,57 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: @project.artifactId@
+  profiles:
+    active: @spring.profile@
+  cloud:
+    nacos:
+      # 服务注册和发现
+      discovery:
+        # 公共配置: src/main/filters/config-dev.properties
+        server-addr: @nacos.ip@:@nacos.port@
+        namespace: @nacos.namespace@
+        username: @nacos.username@
+        password: @nacos.password@
+      # 配置中心
+      config:
+        server-addr: @nacos.ip@:@nacos.port@
+        namespace: @nacos.namespace@
+        username: @nacos.username@
+        password: @nacos.password@
+        # 配置文件 前缀
+        prefix: ${spring.application.name}
+        # 配置文件类型 后缀
+        file-extension: yml
+        # 共享配置文件,refresh true 开启动态刷新配置, 默认false, 默认 DEFAULT_GROUP
+        shared-configs:
+          - data-id: redisson.yml
+            refresh: true
+          - data-id: database.yml
+            refresh: true
+
+springdoc:
+  swagger-ui:
+    tags-sorter: alpha
+  group-configs:
+    - group: system
+      display-name: "系统服务接口文档"
+      paths-to-match:
+        - '/**'
+      packages-to-scan:
+        - com.cs.modules.system
+  default-flat-param-object: true
+# 开启配置增强
+knife4j:
+  enable: true
+  # 开启生产环境屏蔽, 即生产环境设置为 true
+  production: false
+  setting:
+    language: zh_cn
+    swagger-model-name: 实体类列表
+  # 开启鉴权
+  basic:
+    enable: true
+    username: admin
+    password: admin@2024
